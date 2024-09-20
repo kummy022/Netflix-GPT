@@ -1,12 +1,12 @@
-import './App.css';
+import Body from "./components/Body";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="font-bold, text-2xl text-sky-600">
-        Welcome to NETFLIXGPT
-      </header>
+    <div>
+      <Body/>
     </div>
+
   );
 }
 
