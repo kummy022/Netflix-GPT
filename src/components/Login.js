@@ -45,9 +45,9 @@ const Login = () => {
           photoURL: photoURL
         }) );
             // Profile updated!
-            console.log(name.current.value);
+           
           }).catch((error) => {
-            console.error("Error updating profile:", error);
+           
           });
         })
         .catch((error) => {
@@ -61,7 +61,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log("User signed in:", user);
+         
          
         })
         .catch((error) => {
@@ -95,7 +95,8 @@ const Login = () => {
         <input ref={email} type='text' placeholder='Email or mobile number' className='m-2 p-3 bg-inherit rounded-md w-full' />
         <input ref={password} type='password' placeholder='Password' className='m-2 p-3 bg-inherit rounded-md w-full' />
         <p className='text-white-700 font-bold'>{errorMessage}</p>
-        <button className='m-2 p-3 bg-red-600 rounded-lg w-full' onClick={handleButtonClick}>{isSignIn ? "Sign In" : "Sign Up"}</button>
+        <button className='m-2 p-3 bg-red-600 rounded-lg w-full' 
+        onClick={handleButtonClick}>{isSignIn ? "Sign In" : "Sign Up"}</button>
 
         {isSignIn && (
           <>

@@ -4,13 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { addUser, removeUser } from '../utils/userSlice'
 import React, { useEffect } from 'react'
-import { LOGO, USER_AVATAR } from "../utils/constants";
+import { LOGO, SUPPPORTED_LANGUAGES, THEME, USER_AVATAR } from "../utils/constants";
+import { toggleGptSearch } from "../utils/gptSearchSlice";
+import { langChange, themeChange } from "../utils/configSlice";
 
 
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store => store.user))
   const dispatch = useDispatch();
+  const showGptSearch = useSelector((store) => store.gptSearch.showGptSearch);
+
+ 
 
   const handleSignOut = ()=>{
     signOut(auth).then(() => {
@@ -41,23 +46,51 @@ const Header = () => {
         navigate("/")
       }
     });
+
     return ()=> unsubscribe();
 
   },[]
   )
+
+  const handleGptSearchClick = ()=>{
+    // toggle  GPT SEARCH BUTTON
+      dispatch(toggleGptSearch());
+    };
+
+    const langChangeOnClick = (e) => {
+      dispatch(langChange(e.target.value)); 
+    };
+
+    const themeChangeOnClick = (e) =>{
+      dispatch(themeChange(e.target.value))
+    };
+    
   
   
   return (
     
-    <div className='absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between'>
+    <div className='absolute w-screen px-8 py-2 bg-gradient-to-b z-10 flex justify-between'>
       <img className='w-44'
         src={LOGO}
         alt='Netflix logo'
       />
       { user &&
       <div>
-        
-        <button className='m-4 p-2 bg-red-600 rounded-lg text-white'onClick={handleSignOut} >SignOut </button>
+        { showGptSearch && <select className="bg-amber-400 m-2 p-2 rounded-lg" 
+        onChange={themeChangeOnClick}>
+          {THEME.map((currentTheme) => <option key={currentTheme.identifier}
+        value={currentTheme.identifier}>{currentTheme.name}</option>)}
+        </select>}
+        { showGptSearch && <select className="m-4 p-2 bg-green-900 rounded-lg text-white"
+         onChange={langChangeOnClick}>
+          {SUPPPORTED_LANGUAGES.map((lang)=> <option key={lang.identifier} 
+          value={lang.identifier}>{lang.name}</option>)}
+        </select>
+        }
+        <button className="m-4 p-2 bg-purple-900 rounded-lg text-white" 
+        onClick={handleGptSearchClick} >{showGptSearch ? "Home" : "GPT Search"}</button>
+        <button className='m-4 p-2 bg-red rounded-lg text-white'
+        onClick={handleSignOut} >SignOut </button>
       </div>
       }
     </div>
